@@ -1,0 +1,163 @@
+repositories:
+  # Co-maintainers: Dirk
+  colcon/colcon-ros:
+    type: git
+    url: https://github.com/colcon/colcon-ros.git
+
+  # Solo
+  colcon/colcon-spawn-shell:
+    type: git
+    url: https://github.com/colcon/colcon-spawn-shell.git
+
+  # Co-maintainers: Tully
+  osrf/car_demo:
+    type: git
+    url: https://github.com/osrf/car_demo.git
+
+  # Solo
+  osrf/py3-ready:
+    type: git
+    url: https://github.com/osrf/py3-ready.git
+
+  # Co-maintainers: Chris
+  ros/collada_urdf:
+    type: git
+    url: https://github.com/ros/collada_urdf.git
+
+  # Co-maintainers: Chris
+  ros/eigen_stl_containers:
+    type: git
+    url: https://github.com/ros/eigen_stl_containers.git
+
+  # Co-maintainers: Mabel
+  # Active branches: kinetic-devel
+  ros/genpy:
+    type: git
+    url: https://github.com/ros/genpy.git
+
+  # Co-maintainers: Chris
+  ros/kdl_parser:
+    type: git
+    url: https://github.com/ros/kdl_parser.git
+
+  # Co-maintainers: Chris
+  ros/robot_state_publisher:
+    type: git
+    url: https://github.com/ros/robot_state_publisher.git
+
+  # Co-maintainers: Jacob, Michael
+  # Active branches: noetic-devel, melodic-devel, kinetic-devel
+  # Process:
+  #   Backporting is done in big batches - sequentially
+  ros/ros_comm:
+    type: git
+    url: https://github.com/ros/ros_comm.git
+
+  # Co-maintainers: Mabel
+  # Active branches: noetic-devel, dashing-devel, eloquent-devel, foxy-devel, kinetic-devel, melodic-devel, galactic-devel
+  ros/ros_tutorials:
+    type: git
+    url: https://github.com/ros/ros_tutorials.git
+
+  # Co-maintainers: Chris
+  ros/urdf_parser_py:
+    type: git
+    url: https://github.com/ros/urdf_parser_py.git
+
+  # Co-maintainers: Chris
+  ros/urdfdom:
+    type: git
+    url: https://github.com/ros/urdfdom.git
+
+  # Solo
+  ros2/darknet_vendor:
+    type: git
+    url: https://github.com/ros2/darknet_vendor.git
+
+  # Solo
+  ros2/detection_visualizer:
+    type: git
+    url: https://github.com/ros2/detection_visualizer.git
+
+  # Solo
+  ros2/eigen3_cmake_module:
+    type: git
+    url: https://github.com/ros2/eigen3_cmake_module.git
+
+  # Co-maintainers: Mabel
+  # Active branches: master, dashing, eloquent, foxy
+  ros2/examples:
+    type: git
+    url: https://github.com/ros2/examples.git
+
+  # Solo
+  ros2/openrobotics_darknet_ros:
+    type: git
+    url: https://github.com/ros2/openrobotics_darknet_ros.git
+
+  # Solo
+  # Active branches: master
+  ros2/pybind11_vendor:
+    type: git
+    url: https://github.com/ros2/pybind11_vendor.git
+
+  # Solo
+  # Active branches: master, eloquent, foxy
+  ros2/python_cmake_module:
+    type: git
+    url: https://github.com/ros2/python_cmake_module.git
+
+  # Co-maintainers: Ivan, Claire
+  # Active branches: master, dashing, eloquent, foxy
+  ros2/rclpy:
+    type: git
+    url: https://github.com/ros2/rclpy.git
+
+  # Co-maintainers: Jacob
+  ros2/ros1_bridge:
+    type: git
+    url: https://github.com/ros2/ros1_bridge.git
+
+  # Co-maintainers: Chris
+  ros2/rosidl:
+    type: git
+    url: https://github.com/ros2/rosidl.git
+
+  # Solo
+  # Active branches: master, dashing, eloquent, foxy
+  ros2/rosidl_dds:
+    type: git
+    url: https://github.com/ros2/rosidl_dds.git
+
+  # Solo
+  # Active branches: master, dashing, eloquent, foxy
+  ros2/rosidl_defaults:
+    type: git
+    url: https://github.com/ros2/rosidl_defaults.git
+
+  # Co-maintainers: Claire
+  # Active branches: master, dashing, eloquent, foxy
+  ros2/rosidl_python:
+    type: git
+    url: https://github.com/ros2/rosidl_python.git
+
+  # Co-maintainers: Chris
+  # Active branches: master, dashing, eloquent, foxy
+  ros2/rosidl_typesupport:
+    type: git
+    url: https://github.com/ros2/rosidl_typesupport.git
+
+  # Solo
+  ros2/slide_show:
+    type: git
+    url: https://github.com/ros2/slide_show.git
+
+  # Co-maintainers: Chris
+  ros2/urdf:
+    type: git
+    url: https://github.com/ros2/urdf.git
+
+  # Co-maintainers: Chris
+  ros2/urdfdom:
+    type: git
+    url: https://github.com/ros2/urdfdom.git
