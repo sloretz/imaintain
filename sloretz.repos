@@ -1,5 +1,10 @@
 repositories:
   # Co-maintainers: Dirk
+  colcon/colcon-output:
+    type: git
+    url: https://github.com/colcon/colcon-output.git
+
+  # Co-maintainers: Dirk
   colcon/colcon-ros:
     type: git
     url: https://github.com/colcon/colcon-ros.git
@@ -8,6 +13,11 @@ repositories:
   colcon/colcon-spawn-shell:
     type: git
     url: https://github.com/colcon/colcon-spawn-shell.git
+
+  # Co-maintainers: Dirk
+  colcon/colcon-zsh:
+    type: git
+    url: https://github.com/colcon/colcon-zsh.git
 
   # Co-maintainers: Tully
   osrf/car_demo:
@@ -68,6 +78,18 @@ repositories:
   ros/urdfdom:
     type: git
     url: https://github.com/ros/urdfdom.git
+
+  # Co-maintainers: Claire
+  # Active branches: melodic-devel, kinetic-devel, crystal-devel
+  ros-visualization/python_qt_binding:
+    type: git
+    url: https://github.com/ros-visualization/python_qt_binding.git
+
+  # Co-maintainers: Scott
+  # Active branches: melodic-devel, kinetic-devel, crystal-devel
+  ros-visualization/qt_gui_core:
+    type: git
+    url: https://github.com/ros-visualization/qt_gui_core.git
 
   # Solo
   ros2/darknet_vendor:
