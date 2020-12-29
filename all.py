@@ -183,7 +183,6 @@ if response.status_code != 200:
     raise response
 
 data = response.json()
-# print(data.keys(), data)
 
 json_things = []
 for _, repo_data in data['data'].items():
@@ -200,7 +199,6 @@ for _, repo_data in data['data'].items():
 table_things = []
 
 for thing in sorted(json_things, key=lambda t: t['updatedAt']):
-    print(thing)
     repo = thing['repository']['owner']['login'] + '/' + thing['repository']['name']
     repo = linkify(repo, 'https://github.com/' + repo)
 
