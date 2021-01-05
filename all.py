@@ -12,158 +12,129 @@ def get_api_key():
     return key
 
 
-GRAPHQL_QUERY = """
-query {
-  r2:repository(owner:"colcon", name:"colcon-output") {
-    ...pr_and_issue_info
-  }
-  r3:repository(owner:"colcon", name:"colcon-ros") {
-    ...pr_and_issue_info
-  }
-  r4:repository(owner:"colcon", name:"colcon-spawn-shell") {
-    ...pr_and_issue_info
-  }
-  r5:repository(owner:"colcon", name:"colcon-zsh") {
-    ...pr_and_issue_info
-  }
-  r6:repository(owner:"osrf", name:"car_demo") {
-    ...pr_and_issue_info
-  }
-  r7:repository(owner:"osrf", name:"py3-ready") {
-    ...pr_and_issue_info
-  }
-  r8:repository(owner:"ros", name:"collada_urdf") {
-    ...pr_and_issue_info
-  }
-  r9:repository(owner:"ros", name:"eigen_stl_containers") {
-    ...pr_and_issue_info
-  }
-  r10:repository(owner:"ros", name:"genpy") {
-    ...pr_and_issue_info
-  }
-  r11:repository(owner:"ros", name:"kdl_parser") {
-    ...pr_and_issue_info
-  }
-  r12:repository(owner:"ros", name:"robot_state_publisher") {
-    ...pr_and_issue_info
-  }
-  r13:repository(owner:"ros", name:"ros_comm") {
-    ...pr_and_issue_info
-  }
-  r14:repository(owner:"ros", name:"ros_tutorials") {
-    ...pr_and_issue_info
-  }
-  r15:repository(owner:"ros", name:"urdf_parser_py") {
-    ...pr_and_issue_info
-  }
-  r16:repository(owner:"ros", name:"urdfdom") {
-    ...pr_and_issue_info
-  }
-  r17:repository(owner:"ros-visualization", name:"python_qt_binding") {
-    ...pr_and_issue_info
-  }
-  r18:repository(owner:"ros-visualization", name:"qt_gui_core") {
-    ...pr_and_issue_info
-  }
-  r19:repository(owner:"ros2", name:"darknet_vendor") {
-    ...pr_and_issue_info
-  }
-  r20:repository(owner:"ros2", name:"detection_visualizer") {
-    ...pr_and_issue_info
-  }
-  r21:repository(owner:"ros2", name:"eigen3_cmake_module") {
-    ...pr_and_issue_info
-  }
-  r22:repository(owner:"ros2", name:"examples") {
-    ...pr_and_issue_info
-  }
-  r23:repository(owner:"ros2", name:"openrobotics_darknet_ros") {
-    ...pr_and_issue_info
-  }
-  r24:repository(owner:"ros2", name:"pybind11_vendor") {
-    ...pr_and_issue_info
-  }
-  r25:repository(owner:"ros2", name:"python_cmake_module") {
-    ...pr_and_issue_info
-  }
-  r26:repository(owner:"ros2", name:"rclpy") {
-    ...pr_and_issue_info
-  }
-  r27:repository(owner:"ros2", name:"ros1_bridge") {
-    ...pr_and_issue_info
-  }
-  r28:repository(owner:"ros2", name:"rosidl") {
-    ...pr_and_issue_info
-  }
-  r29:repository(owner:"ros2", name:"rosidl_dds") {
-    ...pr_and_issue_info
-  }
-  r30:repository(owner:"ros2", name:"rosidl_defaults") {
-    ...pr_and_issue_info
-  }
-  r31:repository(owner:"ros2", name:"rosidl_python") {
-    ...pr_and_issue_info
-  }
-  r32:repository(owner:"ros2", name:"rosidl_typesupport") {
-    ...pr_and_issue_info
-  }
-  r33:repository(owner:"ros2", name:"slide_show") {
-    ...pr_and_issue_info
-  }
-  r34:repository(owner:"ros2", name:"urdf") {
-    ...pr_and_issue_info
-  }
-  r35:repository(owner:"ros2", name:"urdfdom") {
-    ...pr_and_issue_info
-  }
-}
 
-fragment pr_and_issue_info on Repository {
-  pullRequests(last: 100, states:OPEN) {
-    nodes {
-      number
-      publishedAt
-      isDraft
-      title
-      updatedAt
-      url
-      comments {
-        totalCount
-      }
-      author {
-        login
-      }
-      repository {
-        owner {
-            login
+class GithubQuery:
+    REPO_QUERY = """
+r{n}:repository(owner:"{owner}", name:"{name}") {{
+  {info}
+  owner {{
+      login
+  }}
+  name
+}}"""
+
+    PR_QUERY = """
+pullRequests({pagination}, states:OPEN) {{
+  ...pr_info
+}}"""
+
+    ISSUE_QUERY = """
+issues({pagination}, states:OPEN) {{
+  ...issue_info
+}}"""
+
+    pagination_START = 'first: 100'
+
+    pagination_CONT = 'first: 100, after: "{after}"'
+
+    PR_INFO_FRAG = """
+fragment pr_info on PullRequestConnection {
+  edges {
+    cursor
+    node {
+        number
+        publishedAt
+        isDraft
+        title
+        updatedAt
+        url
+        comments {
+          totalCount
         }
-        name
-      }
+        author {
+          login
+        }
     }
   }
-  issues(last: 100, states:OPEN) {
-    nodes {
-      number
-      publishedAt
-      updatedAt
-      title
-      url
-      comments {
-        totalCount
-      }
-      author {
-        login
-      }
-      repository {
-        owner {
-            login
+  pageInfo {
+      hasNextPage
+  }
+}"""
+
+    ISSUE_INFO_FRAG = """
+fragment issue_info on IssueConnection {
+  edges {
+    cursor
+    node {
+        number
+        publishedAt
+        updatedAt
+        title
+        url
+        comments {
+          totalCount
         }
-        name
-      }
+        author {
+          login
+        }
     }
   }
-}
-"""
+  pageInfo {
+      hasNextPage
+  }
+}"""
+
+    GRAPHQL_QUERY = """
+query {{
+  {repo_fragments}
+}}
+{INFO_FRAG}"""
+
+    def __init__(self, repos):
+        self._repos = [(owner, name) for owner, name in repos]
+
+    def next_query(self, last_results=None):
+        pagination_issues = {}
+        pagination_prs = {}
+        for repo in self._repos:
+            if last_results is None:
+                pagination_issues[repo] = self.pagination_START
+                pagination_prs[repo] = self.pagination_START
+            else:
+                for _, repo_info in last_results['data'].items():
+                    if repo != (repo_info['owner']['login'], repo_info['name']):
+                        # not the data for this repo, keep looking
+                        continue
+                    if 'issues' in repo_info and repo_info['issues']['pageInfo']['hasNextPage']:
+                        pagination_issues[repo] = self.pagination_CONT.format(
+                            after=repo_info['issues']['edges'][-1]['cursor'])
+                    if 'pullRequests' in repo_info and repo_info['pullRequests']['pageInfo']['hasNextPage']:
+                        pagination_prs[repo] = self.pagination_CONT.format(
+                            after=repo_info['pullRequests']['edges'][-1]['cursor'])
+
+        info_frags = []
+        repo_queries = []
+        n = 0
+        for repo in self._repos:
+            owner, name = repo
+            queries = []
+            if repo in pagination_issues:
+                queries.append(self.ISSUE_QUERY.format(pagination=pagination_issues[repo]))
+                if self.ISSUE_INFO_FRAG not in info_frags:
+                    info_frags.append(self.ISSUE_INFO_FRAG)
+            if repo in pagination_prs:
+                queries.append(self.PR_QUERY.format(pagination=pagination_prs[repo]))
+                if self.PR_INFO_FRAG not in info_frags:
+                    info_frags.append(self.PR_INFO_FRAG)
+            if queries:
+                n += 1
+                repo_queries.append(self.REPO_QUERY.format(
+                    n=n, owner=owner, name=name, info='\n'.join(queries)))
+
+        if repo_queries:
+            return self.GRAPHQL_QUERY.format(
+                repo_fragments='\n'.join(repo_queries),
+                INFO_FRAG='\n'.join(info_frags))
 
 
 def linkify(text, url):
@@ -173,33 +144,76 @@ def linkify(text, url):
 def dateify(date_str):
     return datetime.datetime.strptime('2020-10-22T16:02:39Z', '%Y-%m-%dT%H:%M:%SZ')
 
+repos = (
+    ('colcon', 'colcon-output'),
+    ('colcon', 'colcon-ros'),
+    ('colcon', 'colcon-spawn-shell'),
+    ('colcon', 'colcon-zsh'),
+    ('osrf', 'car_demo'),
+    ('osrf', 'py3-ready'),
+    ('ros', 'collada_urdf'),
+    ('ros', 'eigen_stl_containers'),
+    ('ros', 'genpy'),
+    ('ros', 'kdl_parser'),
+    ('ros', 'robot_state_publisher'),
+    ('ros', 'ros_comm'),
+    ('ros', 'ros_tutorials'),
+    ('ros', 'urdf_parser_py'),
+    ('ros', 'urdfdom'),
+    ('ros-visualization', 'python_qt_binding'),
+    ('ros-visualization', 'qt_gui_core'),
+    ('ros2', 'darknet_vendor'),
+    ('ros2', 'detection_visualizer'),
+    ('ros2', 'eigen3_cmake_module'),
+    ('ros2', 'examples'),
+    ('ros2', 'openrobotics_darknet_ros'),
+    ('ros2', 'pybind11_vendor'),
+    ('ros2', 'python_cmake_module'),
+    ('ros2', 'rclpy'),
+    ('ros2', 'ros1_bridge'),
+    ('ros2', 'rosidl'),
+    ('ros2', 'rosidl_dds'),
+    ('ros2', 'rosidl_defaults'),
+    ('ros2', 'rosidl_python'),
+    ('ros2', 'rosidl_typesupport'),
+    ('ros2', 'slide_show'),
+    ('ros2', 'urdf'),
+    ('ros2', 'urdfdom')
+)
 
-response = requests.post(
-    'https://api.github.com/graphql',
-    json={'query': GRAPHQL_QUERY},
-    headers={'Authorization': 'Bearer ' + get_api_key()})
-
-if response.status_code != 200:
-    raise response
-
-data = response.json()
-
+query = GithubQuery(repos)
+next_query = query.next_query()
 json_things = []
-for _, repo_data in data['data'].items():
-    for issue in repo_data['issues']['nodes']:
-        json_things.append(issue)
-    for pr in repo_data['pullRequests']['nodes']:
-        json_things.append(pr)
 
-# TODO(sloretz) Sort by updated date
-# for thing in json_things:
-#     if thing['updatedAt'] is None:
-#         thing['updatedAt'] = thing['publishedAt']
-# 
+
+while next_query:
+    response = requests.post(
+        'https://api.github.com/graphql',
+        json={'query': next_query},
+        headers={'Authorization': 'Bearer ' + get_api_key()})
+
+    if response.status_code != 200:
+        raise response
+
+    data = response.json()
+
+    for _, repo_data in data['data'].items():
+        repo_name = f'{repo_data["owner"]["login"]}/{repo_data["name"]}'
+        if 'issues' in repo_data:
+            for issue in repo_data['issues']['edges']:
+                issue['node']['repo'] = repo_name
+                json_things.append(issue['node'])
+        if 'pullRequests' in repo_data:
+            for pr in repo_data['pullRequests']['edges']:
+                pr['node']['repo'] = repo_name
+                json_things.append(pr['node'])
+
+    next_query = query.next_query(data)
+
 table_things = []
 
 for thing in sorted(json_things, key=lambda t: t['updatedAt']):
-    repo = thing['repository']['owner']['login'] + '/' + thing['repository']['name']
+    repo = thing['repo']
     repo = linkify(repo, 'https://github.com/' + repo)
 
     title = thing['title']
@@ -228,3 +242,4 @@ for thing in sorted(json_things, key=lambda t: t['updatedAt']):
 
 from tabulate import tabulate
 print(tabulate(table_things))
+print(f'total: {len(table_things)}')
