@@ -12,93 +12,126 @@ def get_api_key():
     return key
 
 
-REPO_QUERY_FRAG = """
-  r{n}:repository(owner:"{owner}", name:"{name}") {{
-    pullRequests({pagenation_prs} states:OPEN) {{
-      ...pr_info
-    }}
-    issues({pagenation_issues} states:OPEN) {{
-      ...issue_info
-    }}
+
+class GithubQuery:
+    REPO_QUERY = """
+r{n}:repository(owner:"{owner}", name:"{name}") {{
+  {info}
+  owner {{
+      login
   }}
-"""
+  name
+}}"""
 
-PAGENATION_START = 'last: {last}'
-PAGENATION_CONT = 'last: {last}, before: "{before}"'
+    PR_QUERY = """
+pullRequests({pagenation}, states:OPEN) {{
+  ...pr_info
+}}"""
 
-INFO_FRAG = """
+    ISSUE_QUERY = """
+issues({pagenation}, states:OPEN) {{
+  ...issue_info
+}}"""
+
+    PAGENATION_START = 'first: 100'
+
+    PAGENATION_CONT = 'first: 100, after: "{after}"'
+
+    PR_INFO_FRAG = """
 fragment pr_info on PullRequestConnection {
-  nodes {
-    number
-    publishedAt
-    isDraft
-    title
-    updatedAt
-    url
-    comments {
-      totalCount
-    }
-    author {
-      login
-    }
-    repository {
-      owner {
+  edges {
+    cursor
+    node {
+        number
+        publishedAt
+        isDraft
+        title
+        updatedAt
+        url
+        comments {
+          totalCount
+        }
+        author {
           login
-      }
-      name
+        }
     }
   }
   pageInfo {
-      hasPreviousPage
-      startCursor
+      hasNextPage
   }
-}
+}"""
 
+    ISSUE_INFO_FRAG = """
 fragment issue_info on IssueConnection {
-  nodes {
-    number
-    publishedAt
-    updatedAt
-    title
-    url
-    comments {
-      totalCount
-    }
-    author {
-      login
-    }
-    repository {
-      owner {
+  edges {
+    cursor
+    node {
+        number
+        publishedAt
+        updatedAt
+        title
+        url
+        comments {
+          totalCount
+        }
+        author {
           login
-      }
-      name
+        }
     }
   }
   pageInfo {
-      hasPreviousPage
-      startCursor
+      hasNextPage
   }
-}
-"""
+}"""
 
-GRAPHQL_QUERY = """
+    GRAPHQL_QUERY = """
 query {{
   {repo_fragments}
-  {INFO_FRAG}
 }}
-"""
+{INFO_FRAG}"""
 
+    def __init__(self, repos):
+        self._repos = [(owner, name) for owner, name in repos]
 
-def make_query(repos):
-    repo_queries = []
-    n = 0
-    for owner, name in repos:
-        n += 1
-        repo_queries.append(REPO_QUERY_FRAG.format(n=n, owner=owner, name=name))
+    def next_query(self, last_results=None):
+        pagenation_issues = {}
+        pagenation_prs = {}
+        for repo in self._repos:
+            if last_results is None:
+                pagenation_issues[repo] = self.PAGENATION_START
+                pagenation_prs[repo] = self.PAGENATION_START
+            else:
+                for _, repo_info in last_results['data'].items():
+                    if 'issues' in repo_info and repo_info['issues']['pageInfo']['hasNextPage']:
+                        pagenation_issues[repo] = self.PAGENATION_CONT.format(
+                            after=repo_info['issues']['edges'][-1]['cursor'])
+                    if 'pullRequests' in repo_info and repo_info['pullRequests']['pageInfo']['hasNextPage']:
+                        pagenation_prs[repo] = self.PAGENATION_CONT.format(
+                            after=repo_info['pullRequests']['edges'][-1]['cursor'])
 
-    return GRAPHQL_QUERY.format(
-        repo_fragments='\n'.join(repo_queries),
-        INFO_FRAG=INFO_FRAG)
+        info_frags = []
+        repo_queries = []
+        n = 0
+        for repo in self._repos:
+            owner, name = repo
+            queries = []
+            if repo in pagenation_issues:
+                queries.append(self.ISSUE_QUERY.format(pagenation=pagenation_issues[repo]))
+                if self.ISSUE_INFO_FRAG not in info_frags:
+                    info_frags.append(self.ISSUE_INFO_FRAG)
+            if repo in pagenation_prs:
+                queries.append(self.PR_QUERY.format(pagenation=pagenation_prs[repo]))
+                if self.PR_INFO_FRAG not in info_frags:
+                    info_frags.append(self.PR_INFO_FRAG)
+            if queries:
+                n += 1
+                repo_queries.append(self.REPO_QUERY.format(
+                    n=n, owner=owner, name=name, info='\n'.join(queries)))
+
+        if repo_queries:
+            return self.GRAPHQL_QUERY.format(
+                repo_fragments='\n'.join(repo_queries),
+                INFO_FRAG='\n'.join(info_frags))
 
 
 def linkify(text, url):
@@ -108,70 +141,76 @@ def linkify(text, url):
 def dateify(date_str):
     return datetime.datetime.strptime('2020-10-22T16:02:39Z', '%Y-%m-%dT%H:%M:%SZ')
 
+repos = (
+    ('colcon', 'colcon-output'),
+    ('colcon', 'colcon-ros'),
+    ('colcon', 'colcon-spawn-shell'),
+    ('colcon', 'colcon-zsh'),
+    ('osrf', 'car_demo'),
+    ('osrf', 'py3-ready'),
+    ('ros', 'collada_urdf'),
+    ('ros', 'eigen_stl_containers'),
+    ('ros', 'genpy'),
+    ('ros', 'kdl_parser'),
+    ('ros', 'robot_state_publisher'),
+    ('ros', 'ros_comm'),
+    ('ros', 'ros_tutorials'),
+    ('ros', 'urdf_parser_py'),
+    ('ros', 'urdfdom'),
+    ('ros-visualization', 'python_qt_binding'),
+    ('ros-visualization', 'qt_gui_core'),
+    ('ros2', 'darknet_vendor'),
+    ('ros2', 'detection_visualizer'),
+    ('ros2', 'eigen3_cmake_module'),
+    ('ros2', 'examples'),
+    ('ros2', 'openrobotics_darknet_ros'),
+    ('ros2', 'pybind11_vendor'),
+    ('ros2', 'python_cmake_module'),
+    ('ros2', 'rclpy'),
+    ('ros2', 'ros1_bridge'),
+    ('ros2', 'rosidl'),
+    ('ros2', 'rosidl_dds'),
+    ('ros2', 'rosidl_defaults'),
+    ('ros2', 'rosidl_python'),
+    ('ros2', 'rosidl_typesupport'),
+    ('ros2', 'slide_show'),
+    ('ros2', 'urdf'),
+    ('ros2', 'urdfdom')
+)
 
-query = make_query((
-    ['colcon', 'colcon-output'],
-    ['colcon', 'colcon-ros'],
-    ['colcon', 'colcon-spawn-shell'],
-    ['colcon', 'colcon-zsh'],
-    ['osrf', 'car_demo'],
-    ['osrf', 'py3-ready'],
-    ['ros', 'collada_urdf'],
-    ['ros', 'eigen_stl_containers'],
-    ['ros', 'genpy'],
-    ['ros', 'kdl_parser'],
-    ['ros', 'robot_state_publisher'],
-    ['ros', 'ros_comm'],
-    ['ros', 'ros_tutorials'],
-    ['ros', 'urdf_parser_py'],
-    ['ros', 'urdfdom'],
-    ['ros-visualization', 'python_qt_binding'],
-    ['ros-visualization', 'qt_gui_core'],
-    ['ros2', 'darknet_vendor'],
-    ['ros2', 'detection_visualizer'],
-    ['ros2', 'eigen3_cmake_module'],
-    ['ros2', 'examples'],
-    ['ros2', 'openrobotics_darknet_ros'],
-    ['ros2', 'pybind11_vendor'],
-    ['ros2', 'python_cmake_module'],
-    ['ros2', 'rclpy'],
-    ['ros2', 'ros1_bridge'],
-    ['ros2', 'rosidl'],
-    ['ros2', 'rosidl_dds'],
-    ['ros2', 'rosidl_defaults'],
-    ['ros2', 'rosidl_python'],
-    ['ros2', 'rosidl_typesupport'],
-    ['ros2', 'slide_show'],
-    ['ros2', 'urdf'],
-    ['ros2', 'urdfdom']))
-
-
-response = requests.post(
-    'https://api.github.com/graphql',
-    json={'query': query},
-    headers={'Authorization': 'Bearer ' + get_api_key()})
-
-if response.status_code != 200:
-    raise response
-
-data = response.json()
-
+query = GithubQuery(repos)
+next_query = query.next_query()
 json_things = []
-for _, repo_data in data['data'].items():
-    for issue in repo_data['issues']['nodes']:
-        json_things.append(issue)
-    for pr in repo_data['pullRequests']['nodes']:
-        json_things.append(pr)
 
-# TODO(sloretz) Sort by updated date
-# for thing in json_things:
-#     if thing['updatedAt'] is None:
-#         thing['updatedAt'] = thing['publishedAt']
-# 
+
+while next_query:
+    response = requests.post(
+        'https://api.github.com/graphql',
+        json={'query': next_query},
+        headers={'Authorization': 'Bearer ' + get_api_key()})
+
+    if response.status_code != 200:
+        raise response
+
+    data = response.json()
+
+    for _, repo_data in data['data'].items():
+        repo_name = f'{repo_data["owner"]["login"]}/{repo_data["name"]}'
+        if 'issues' in repo_data:
+            for issue in repo_data['issues']['edges']:
+                issue['node']['repo'] = repo_name
+                json_things.append(issue['node'])
+        if 'pullRequests' in repo_data:
+            for pr in repo_data['pullRequests']['edges']:
+                pr['node']['repo'] = repo_name
+                json_things.append(pr['node'])
+
+    next_query = query.next_query(data)
+
 table_things = []
 
 for thing in sorted(json_things, key=lambda t: t['updatedAt']):
-    repo = thing['repository']['owner']['login'] + '/' + thing['repository']['name']
+    repo = thing['repo']
     repo = linkify(repo, 'https://github.com/' + repo)
 
     title = thing['title']
