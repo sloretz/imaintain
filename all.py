@@ -24,18 +24,18 @@ r{n}:repository(owner:"{owner}", name:"{name}") {{
 }}"""
 
     PR_QUERY = """
-pullRequests({pagenation}, states:OPEN) {{
+pullRequests({pagination}, states:OPEN) {{
   ...pr_info
 }}"""
 
     ISSUE_QUERY = """
-issues({pagenation}, states:OPEN) {{
+issues({pagination}, states:OPEN) {{
   ...issue_info
 }}"""
 
-    PAGENATION_START = 'first: 100'
+    pagination_START = 'first: 100'
 
-    PAGENATION_CONT = 'first: 100, after: "{after}"'
+    pagination_CONT = 'first: 100, after: "{after}"'
 
     PR_INFO_FRAG = """
 fragment pr_info on PullRequestConnection {
@@ -94,19 +94,22 @@ query {{
         self._repos = [(owner, name) for owner, name in repos]
 
     def next_query(self, last_results=None):
-        pagenation_issues = {}
-        pagenation_prs = {}
+        pagination_issues = {}
+        pagination_prs = {}
         for repo in self._repos:
             if last_results is None:
-                pagenation_issues[repo] = self.PAGENATION_START
-                pagenation_prs[repo] = self.PAGENATION_START
+                pagination_issues[repo] = self.pagination_START
+                pagination_prs[repo] = self.pagination_START
             else:
                 for _, repo_info in last_results['data'].items():
+                    if repo != (repo_info['owner']['login'], repo_info['name']):
+                        # not the data for this repo, keep looking
+                        continue
                     if 'issues' in repo_info and repo_info['issues']['pageInfo']['hasNextPage']:
-                        pagenation_issues[repo] = self.PAGENATION_CONT.format(
+                        pagination_issues[repo] = self.pagination_CONT.format(
                             after=repo_info['issues']['edges'][-1]['cursor'])
                     if 'pullRequests' in repo_info and repo_info['pullRequests']['pageInfo']['hasNextPage']:
-                        pagenation_prs[repo] = self.PAGENATION_CONT.format(
+                        pagination_prs[repo] = self.pagination_CONT.format(
                             after=repo_info['pullRequests']['edges'][-1]['cursor'])
 
         info_frags = []
@@ -115,12 +118,12 @@ query {{
         for repo in self._repos:
             owner, name = repo
             queries = []
-            if repo in pagenation_issues:
-                queries.append(self.ISSUE_QUERY.format(pagenation=pagenation_issues[repo]))
+            if repo in pagination_issues:
+                queries.append(self.ISSUE_QUERY.format(pagination=pagination_issues[repo]))
                 if self.ISSUE_INFO_FRAG not in info_frags:
                     info_frags.append(self.ISSUE_INFO_FRAG)
-            if repo in pagenation_prs:
-                queries.append(self.PR_QUERY.format(pagenation=pagenation_prs[repo]))
+            if repo in pagination_prs:
+                queries.append(self.PR_QUERY.format(pagination=pagination_prs[repo]))
                 if self.PR_INFO_FRAG not in info_frags:
                     info_frags.append(self.PR_INFO_FRAG)
             if queries:
@@ -239,3 +242,4 @@ for thing in sorted(json_things, key=lambda t: t['updatedAt']):
 
 from tabulate import tabulate
 print(tabulate(table_things))
+print(f'total: {len(table_things)}')
