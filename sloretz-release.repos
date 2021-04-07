@@ -2,8 +2,97 @@ repositories:
   ros2-gbp/rclpy:
     type: git
     url: https://github.com/ros2-gbp/rclpy-release.git
-
   ros-gbp/collada_urdf-release:
     type: git
     url: https://github.com/ros-gbp/collada_urdf-release.git
+  ros-gbp/eigen_stl_containers-release:
+    type: git
+    url: https://github.com/ros-gbp/eigen_stl_containers-release.git
+  ros2-gbp/eigen_stl_containers-release:
+    type: git
+    url: https://github.com/ros2-gbp/eigen_stl_containers-release.git
+  ros-gbp/genpy-release:
+    type: git
+    url: https://github.com/ros-gbp/genpy-release.git
+  ros-gbp/kdl_parser-release:
+    type: git
+    url: https://github.com/ros-gbp/kdl_parser-release.git
+  ros2-gbp/kdl_parser-release:
+    type: git
+    url: https://github.com/ros2-gbp/kdl_parser-release.git
+  ros2-gbp/robot_state_publisher-release:
+    type: git
+    url: https://github.com/ros2-gbp/robot_state_publisher-release.git
+  ros-gbp/robot_state_publisher-release:
+    type: git
+    url: https://github.com/ros-gbp/robot_state_publisher-release.git
+  ros-gbp/ros_comm-release:
+    type: git
+    url: https://github.com/ros-gbp/ros_comm-release.git
+  ros2-gbp/urdfdom_py-release:
+    type: git
+    url: https://github.com/ros2-gbp/urdfdom_py-release.git
+  ros-gbp/urdfdom_py-release:
+    type: git
+    url: https://github.com/ros-gbp/urdfdom_py-release.git
+  ros2-gbp/urdfdom-release:
+    type: git
+    url: https://github.com/ros2-gbp/urdfdom-release.git
+  ros2-gbp/python_qt_binding-release:
+    type: git
+    url: https://github.com/ros2-gbp/python_qt_binding-release.git
+  ros-gbp/python_qt_binding-release:
+    type: git
+    url: https://github.com/ros-gbp/python_qt_binding-release.git
+  ros2-gbp/qt_gui_core-release:
+    type: git
+    url: https://github.com/ros2-gbp/qt_gui_core-release.git
+  ros-gbp/qt_gui_core-release:
+    type: git
+    url: https://github.com/ros-gbp/qt_gui_core-release.git
+  ros2-gbp/eigen3_cmake_module-release:
+    type: git
+    url: https://github.com/ros2-gbp/eigen3_cmake_module-release.git
+  ros2-gbp/examples-release:
+    type: git
+    url: https://github.com/ros2-gbp/examples-release.git
+  ros2-gbp/pybind11_vendor-release:
+    type: git
+    url: https://github.com/ros2-gbp/pybind11_vendor-release.git
+  ros2-gbp/python_cmake_module-release:
+    type: git
+    url: https://github.com/ros2-gbp/python_cmake_module-release.git
+  ros2-gbp/rclpy-release:
+    type: git
+    url: https://github.com/ros2-gbp/rclpy-release.git
+  ros2-gbp/ros1_bridge-release:
+    type: git
+    url: https://github.com/ros2-gbp/ros1_bridge-release.git
+  ros2-gbp/rosidl-release:
+    type: git
+    url: https://github.com/ros2-gbp/rosidl-release.git
+  ros2-gbp/rosidl_dds-release:
+    type: git
+    url: https://github.com/ros2-gbp/rosidl_dds-release.git
+  ros2-gbp/rosidl_defaults-release:
+    type: git
+    url: https://github.com/ros2-gbp/rosidl_defaults-release.git
+  ros2-gbp/rosidl_python-release:
+    type: git
+    url: https://github.com/ros2-gbp/rosidl_python-release.git
+  ros2-gbp/rosidl_typesupport-release:
+    type: git
+    url: https://github.com/ros2-gbp/rosidl_typesupport-release.git
+  ros2-gbp/urdf-release:
+    type: git
+    url: https://github.com/ros2-gbp/urdf-release.git
+  ros-gbp/urdf-release:
+    type: git
+    url: https://github.com/ros-gbp/urdf-release.git
+  ros2-gbp/urdfdom-release:
+    type: git
+    url: https://github.com/ros2-gbp/urdfdom-release.git
+  ros2-gbp/sdformat_urdf-release:
+    type: git
+    url: https://github.com/ros2-gbp/sdformat_urdf-release.git
 

@@ -119,16 +119,20 @@ Melodic
 
 def print_repo_status(repo_path, release_info):
     repo_name = pretty_repo_name(repo_path)
-    num_commits = num_commits_between(repo_path, release_info.release_tag, release_info.devel_branch)
     time_since_str = time_since_tag(repo_path, release_info.release_tag)
     current_version = release_info.release_tag
 
-    commits_str = f'{num_commits} commits'
-    if num_commits == 1:
-        commits_str = commits_str[:-1]
-    since_str = ''
-    if num_commits > 0:
-        since_str = f' and {time_since_str.strip()} since {current_version.strip()}'
+    if release_info.devel_branch is None:
+        commits_str = ''
+        since_str = 'Error: release repo does not specify devel branch'
+    else:
+        num_commits = num_commits_between(repo_path, release_info.release_tag, release_info.devel_branch)
+        commits_str = f'{num_commits} commits'
+        if num_commits == 1:
+            commits_str = commits_str[:-1]
+        since_str = ''
+        if num_commits > 0:
+            since_str = f' and {time_since_str.strip()} since {current_version.strip()}'
     print(f'  {repo_name} {commits_str}{since_str}')
 
 

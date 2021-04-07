@@ -70,6 +70,11 @@ repositories:
     url: https://github.com/ros/ros_tutorials.git
 
   # Co-maintainers: Chris
+  ros/urdf:
+    type: git
+    url: https://github.com/ros/urdf.git
+
+  # Co-maintainers: Chris
   ros/urdf_parser_py:
     type: git
     url: https://github.com/ros/urdf_parser_py.git
@@ -79,7 +84,6 @@ repositories:
     type: git
     url: https://github.com/ros/urdfdom.git
 
-  # Co-maintainers: Claire
   # Active branches: melodic-devel, kinetic-devel, crystal-devel
   ros-visualization/python_qt_binding:
     type: git
@@ -183,3 +187,8 @@ repositories:
   ros2/urdfdom:
     type: git
     url: https://github.com/ros2/urdfdom.git
+
+  # Solo
+  ros/sdformat_urdf:
+    type: git
+    url: https://github.com/ros/sdformat_urdf.git
