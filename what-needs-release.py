@@ -117,6 +117,14 @@ Melodic
     kdl_parser 24 commits and 1 year 6mo 2 days since 0.2.1
 """
 
+
+def https_to_git(uri):
+    https_prefix = 'https://github.com/'
+    if uri.startswith(https_prefix):
+        return 'git@github.com:' + uri[len(https_prefix):]
+    return uri
+
+
 def print_repo_status(repo_path, release_info):
     repo_name = pretty_repo_name(repo_path)
     time_since_str = time_since_tag(repo_path, release_info.release_tag)
@@ -133,6 +141,7 @@ def print_repo_status(repo_path, release_info):
         since_str = ''
         if num_commits > 0:
             since_str = f' and {time_since_str.strip()} since {current_version.strip()}'
+            since_str += f'\n    git clone {https_to_git(release_info.vcs_uri)} -b {release_info.devel_branch}'
     print(f'  {repo_name} {commits_str}{since_str}')
 
 
