@@ -95,4 +95,9 @@ repositories:
   ros2-gbp/sdformat_urdf-release:
     type: git
     url: https://github.com/ros2-gbp/sdformat_urdf-release.git
-
+  ros-gbp/ros_tutorials-release:
+    type: git
+    url: https://github.com/ros-gbp/ros_tutorials-release.git
+  ros2-gbp/ros_tutorials-release:
+    type: git
+    url: https://github.com/ros2-gbp/ros_tutorials-release.git
