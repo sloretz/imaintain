@@ -20,10 +20,8 @@ def cd(path):
 DIR = pathlib.Path(__file__).parent.absolute()
 
 DEFAULT_DISTROS = (
-    'kinetic',
     'melodic',
     'noetic',
-    'dashing',
     'foxy',
     'galactic',
     'rolling'
