@@ -140,7 +140,9 @@ def print_repo_status(repo_path, release_info):
         if num_commits > 0:
             since_str = f' and {time_since_str.strip()} since {current_version.strip()}'
             since_str += f'\n    git clone {https_to_git(release_info.vcs_uri)} -b {release_info.devel_branch}'
-    print(f'  {repo_name} {commits_str}{since_str}')
+    if num_commits > 0:
+        # Only print repos that have commits to release
+        print(f'  {repo_name} {commits_str}{since_str}')
 
 
 def pretty_ros_distro(rosdistro):
