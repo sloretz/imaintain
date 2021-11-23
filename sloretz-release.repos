@@ -8,9 +8,9 @@ repositories:
   ros2-gbp/eigen_stl_containers-release:
     type: git
     url: https://github.com/ros2-gbp/eigen_stl_containers-release.git
-  ros-gbp/genpy-release:
+  ros-gbp/ros-release:
     type: git
-    url: https://github.com/ros-gbp/genpy-release.git
+    url: https://github.com/ros-gbp/ros-release.git
   ros-gbp/kdl_parser-release:
     type: git
     url: https://github.com/ros-gbp/kdl_parser-release.git
@@ -23,9 +23,6 @@ repositories:
   ros-gbp/robot_state_publisher-release:
     type: git
     url: https://github.com/ros-gbp/robot_state_publisher-release.git
-  ros-gbp/ros_comm-release:
-    type: git
-    url: https://github.com/ros-gbp/ros_comm-release.git
   ros2-gbp/urdfdom_py-release:
     type: git
     url: https://github.com/ros2-gbp/urdfdom_py-release.git
@@ -35,18 +32,15 @@ repositories:
   ros2-gbp/urdfdom-release:
     type: git
     url: https://github.com/ros2-gbp/urdfdom-release.git
+  ros-gbp/urdfdom-release:
+    type: git
+    url: https://github.com/ros-gbp/urdfdom-release.git
   ros2-gbp/python_qt_binding-release:
     type: git
     url: https://github.com/ros2-gbp/python_qt_binding-release.git
   ros-gbp/python_qt_binding-release:
     type: git
     url: https://github.com/ros-gbp/python_qt_binding-release.git
-  ros2-gbp/qt_gui_core-release:
-    type: git
-    url: https://github.com/ros2-gbp/qt_gui_core-release.git
-  ros-gbp/qt_gui_core-release:
-    type: git
-    url: https://github.com/ros-gbp/qt_gui_core-release.git
   ros2-gbp/eigen3_cmake_module-release:
     type: git
     url: https://github.com/ros2-gbp/eigen3_cmake_module-release.git
@@ -77,24 +71,18 @@ repositories:
   ros2-gbp/rosidl_python-release:
     type: git
     url: https://github.com/ros2-gbp/rosidl_python-release.git
+  ros2-gbp/rosidl_runtime_py-release:
+    type: git
+    url: https://github.com/ros2-gbp/rosidl_runtime_py-release.git
   ros2-gbp/rosidl_typesupport-release:
     type: git
     url: https://github.com/ros2-gbp/rosidl_typesupport-release.git
+  ros2-gbp/rosidl_typesupport_fastrtps-release:
+    type: git
+    url: https://github.com/ros2-gbp/rosidl_typesupport_fastrtps-release.git
   ros2-gbp/urdf-release:
     type: git
     url: https://github.com/ros2-gbp/urdf-release.git
   ros-gbp/urdf-release:
     type: git
     url: https://github.com/ros-gbp/urdf-release.git
-  ros2-gbp/urdfdom-release:
-    type: git
-    url: https://github.com/ros2-gbp/urdfdom-release.git
-  ros2-gbp/sdformat_urdf-release:
-    type: git
-    url: https://github.com/ros2-gbp/sdformat_urdf-release.git
-  ros-gbp/ros_tutorials-release:
-    type: git
-    url: https://github.com/ros-gbp/ros_tutorials-release.git
-  ros2-gbp/ros_tutorials-release:
-    type: git
-    url: https://github.com/ros2-gbp/ros_tutorials-release.git

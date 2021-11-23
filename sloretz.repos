@@ -1,194 +1,70 @@
 repositories:
-  # Co-maintainers: Dirk
-  colcon/colcon-output:
+  ros2/rclpy:  # Co-maintainers: jacobperron, adityapande-1995
     type: git
-    url: https://github.com/colcon/colcon-output.git
-
-  # Co-maintainers: Dirk
-  colcon/colcon-ros:
+    url: https://github.com/ros2/rclpy.git
+  ros2/rosidl:  # Co-maintainers: hidmic
     type: git
-    url: https://github.com/colcon/colcon-ros.git
-
-  # Solo
-  colcon/colcon-spawn-shell:
+    url: https://github.com/ros2/rosidl.git
+  ros2/ros1_bridge:  # Co-maintainers: gbiggs
     type: git
-    url: https://github.com/colcon/colcon-spawn-shell.git
-
-  # Co-maintainers: Dirk
-  colcon/colcon-zsh:
+    url: https://github.com/ros2/ros1_bridge.git
+  ros2/system_tests:  # Co-maintainers: adityapande-1995
     type: git
-    url: https://github.com/colcon/colcon-zsh.git
-
-  # Co-maintainers: Tully
-  osrf/car_demo:
+    url: https://github.com/ros2/system_tests.git
+  ros2/examples:  # Co-maintainers: adityapande-1995
     type: git
-    url: https://github.com/osrf/car_demo.git
-
-  # Solo
-  osrf/py3-ready:
+    url: https://github.com/ros2/examples.git
+  ros2/rosidl_typesupport:  # Co-maintainers: clalancette
     type: git
-    url: https://github.com/osrf/py3-ready.git
-
-  # Co-maintainers: Chris
-  ros/collada_urdf:
-    type: git
-    url: https://github.com/ros/collada_urdf.git
-
-  # Co-maintainers: Chris
-  ros/eigen_stl_containers:
-    type: git
-    url: https://github.com/ros/eigen_stl_containers.git
-
-  # Co-maintainers: Mabel
-  # Active branches: kinetic-devel
-  ros/genpy:
-    type: git
-    url: https://github.com/ros/genpy.git
-
-  # Co-maintainers: Chris
-  ros/kdl_parser:
-    type: git
-    url: https://github.com/ros/kdl_parser.git
-
-  # Co-maintainers: Chris
-  ros/robot_state_publisher:
+    url: https://github.com/ros2/rosidl_typesupport.git
+  ros/robot_state_publisher:  # Co-maintainers: clalancette
     type: git
     url: https://github.com/ros/robot_state_publisher.git
-
-  # Co-maintainers: Jacob, Michael
-  # Active branches: noetic-devel, melodic-devel, kinetic-devel
-  # Process:
-  #   Backporting is done in big batches - sequentially
-  ros/ros_comm:
+  ros2/rosidl_python:  # Co-maintainers: hidmic
     type: git
-    url: https://github.com/ros/ros_comm.git
-
-  # Co-maintainers: Mabel
-  # Active branches: noetic-devel, dashing-devel, eloquent-devel, foxy-devel, kinetic-devel, melodic-devel, galactic-devel
-  ros/ros_tutorials:
+    url: https://github.com/ros2/rosidl_python.git
+  ros2/rosidl_typesupport_fastrtps:
     type: git
-    url: https://github.com/ros/ros_tutorials.git
-
-  # Co-maintainers: Chris
-  ros/urdf:
+    url: https://github.com/ros2/rosidl_typesupport_fastrtps.git
+  ros/ros:
     type: git
-    url: https://github.com/ros/urdf.git
-
-  # Co-maintainers: Chris
-  ros/urdf_parser_py:
-    type: git
-    url: https://github.com/ros/urdf_parser_py.git
-
-  # Co-maintainers: Chris
-  ros/urdfdom:
+    url: https://github.com/ros/ros.git
+  ros/urdfdom:  # Co-maintainers: clalancette, scpeters
     type: git
     url: https://github.com/ros/urdfdom.git
-
-  # Active branches: melodic-devel, kinetic-devel, crystal-devel
   ros-visualization/python_qt_binding:
     type: git
     url: https://github.com/ros-visualization/python_qt_binding.git
-
-  # Co-maintainers: Scott
-  # Active branches: melodic-devel, kinetic-devel, crystal-devel
-  ros-visualization/qt_gui_core:
+  ros/kdl_parser:  # Co-maintainers: clalancette
     type: git
-    url: https://github.com/ros-visualization/qt_gui_core.git
-
-  # Solo
-  ros2/darknet_vendor:
-    type: git
-    url: https://github.com/ros2/darknet_vendor.git
-
-  # Solo
-  ros2/detection_visualizer:
-    type: git
-    url: https://github.com/ros2/detection_visualizer.git
-
-  # Solo
-  ros2/eigen3_cmake_module:
-    type: git
-    url: https://github.com/ros2/eigen3_cmake_module.git
-
-  # Co-maintainers: Mabel
-  # Active branches: master, dashing, eloquent, foxy
-  ros2/examples:
-    type: git
-    url: https://github.com/ros2/examples.git
-
-  # Solo
-  ros2/openrobotics_darknet_ros:
-    type: git
-    url: https://github.com/ros2/openrobotics_darknet_ros.git
-
-  # Solo
-  # Active branches: master
-  ros2/pybind11_vendor:
-    type: git
-    url: https://github.com/ros2/pybind11_vendor.git
-
-  # Solo
-  # Active branches: master, eloquent, foxy
+    url: https://github.com/ros/kdl_parser.git
   ros2/python_cmake_module:
     type: git
     url: https://github.com/ros2/python_cmake_module.git
-
-  # Co-maintainers: Ivan, Claire
-  # Active branches: master, dashing, eloquent, foxy
-  ros2/rclpy:
-    type: git
-    url: https://github.com/ros2/rclpy.git
-
-  # Co-maintainers: Jacob
-  ros2/ros1_bridge:
-    type: git
-    url: https://github.com/ros2/ros1_bridge.git
-
-  # Co-maintainers: Chris
-  ros2/rosidl:
-    type: git
-    url: https://github.com/ros2/rosidl.git
-
-  # Solo
-  # Active branches: master, dashing, eloquent, foxy
-  ros2/rosidl_dds:
-    type: git
-    url: https://github.com/ros2/rosidl_dds.git
-
-  # Solo
-  # Active branches: master, dashing, eloquent, foxy
   ros2/rosidl_defaults:
     type: git
     url: https://github.com/ros2/rosidl_defaults.git
-
-  # Co-maintainers: Claire
-  # Active branches: master, dashing, eloquent, foxy
-  ros2/rosidl_python:
-    type: git
-    url: https://github.com/ros2/rosidl_python.git
-
-  # Co-maintainers: Chris
-  # Active branches: master, dashing, eloquent, foxy
-  ros2/rosidl_typesupport:
-    type: git
-    url: https://github.com/ros2/rosidl_typesupport.git
-
-  # Solo
-  ros2/slide_show:
-    type: git
-    url: https://github.com/ros2/slide_show.git
-
-  # Co-maintainers: Chris
-  ros2/urdf:
+  ros2/urdf:  # Co-maintainers: clalancette
     type: git
     url: https://github.com/ros2/urdf.git
-
-  # Co-maintainers: Chris
-  ros2/urdfdom:
+  ros/collada_urdf:  # Co-maintainers: clalancette
     type: git
-    url: https://github.com/ros2/urdfdom.git
-
-  # Solo
-  ros/sdformat_urdf:
+    url: https://github.com/ros/collada_urdf.git
+  ros/eigen_stl_containers:  # Co-maintainers: clalancette
     type: git
-    url: https://github.com/ros/sdformat_urdf.git
+    url: https://github.com/ros/eigen_stl_containers.git
+  ros/urdf_parser_py:  # Co-maintainers: clalancette
+    type: git
+    url: https://github.com/ros/urdf_parser_py.git
+  ros2/eigen3_cmake_module:
+    type: git
+    url: https://github.com/ros2/eigen3_cmake_module.git
+  ros2/pybind11_vendor:
+    type: git
+    url: https://github.com/ros2/pybind11_vendor.git
+  ros2/rosidl_dds:
+    type: git
+    url: https://github.com/ros2/rosidl_dds.git
+  ros2/rosidl_runtime_py:
+    type: git
+    url: https://github.com/ros2/rosidl_runtime_py.git
