@@ -41,15 +41,9 @@ repositories:
   ros-gbp/python_qt_binding-release:
     type: git
     url: https://github.com/ros-gbp/python_qt_binding-release.git
-  ros2-gbp/eigen3_cmake_module-release:
-    type: git
-    url: https://github.com/ros2-gbp/eigen3_cmake_module-release.git
   ros2-gbp/examples-release:
     type: git
     url: https://github.com/ros2-gbp/examples-release.git
-  ros2-gbp/pybind11_vendor-release:
-    type: git
-    url: https://github.com/ros2-gbp/pybind11_vendor-release.git
   ros2-gbp/python_cmake_module-release:
     type: git
     url: https://github.com/ros2-gbp/python_cmake_module-release.git

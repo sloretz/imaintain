@@ -59,12 +59,6 @@ repositories:
   ros/urdf_parser_py:  # Co-maintainers: clalancette
     type: git
     url: https://github.com/ros/urdf_parser_py.git
-  ros2/eigen3_cmake_module:
-    type: git
-    url: https://github.com/ros2/eigen3_cmake_module.git
-  ros2/pybind11_vendor:
-    type: git
-    url: https://github.com/ros2/pybind11_vendor.git
   ros2/rosidl_dds:
     type: git
     url: https://github.com/ros2/rosidl_dds.git
